@@ -19,7 +19,7 @@ public class PerceptronTest {
     @BeforeClass
     public static void setUp() throws Exception {
         List<Double> initialWeights = Arrays.asList(0d, 0d, 0d);
-        FunkciaOstrejNelinearity aktivacnaFunkcia = new FunkciaOstrejNelinearity(0.5d);
+        StepFunction aktivacnaFunkcia = new StepFunction(0.5d);
         perceptron = new Perceptron(initialWeights, 0.1d, aktivacnaFunkcia);
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();

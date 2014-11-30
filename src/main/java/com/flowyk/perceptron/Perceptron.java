@@ -17,13 +17,12 @@ public class Perceptron {
     private List<Double> weights;
     private double bias = 0;
     private final double learningRate;
-    private final ActivationFunction activationFunction;
+    private final TransferFunction transferFunction;
 
-    public Perceptron(@NotNull List<Double> weights, double learningRate, @NotNull ActivationFunction activationFunction) {
+    public Perceptron(@NotNull List<Double> weights, double learningRate, @NotNull TransferFunction transferFunction) {
         this.weights = Collections.unmodifiableList(weights);
-        LOG.debug("Input weights was: {}, saved weights are: {}", weights, this.weights);
         this.learningRate = learningRate;
-        this.activationFunction = activationFunction;
+        this.transferFunction = transferFunction;
     }
 
     public ActivationResult activate(ActivationInput input) {
@@ -36,7 +35,7 @@ public class Perceptron {
             sum += sensorOutput;
         }
 
-        double output = activationFunction.activate(bias + sum);
+        double output = transferFunction.transfer(bias + sum);
 
         return new ActivationResult(output);
     }
