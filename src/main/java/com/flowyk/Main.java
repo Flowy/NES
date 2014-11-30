@@ -1,6 +1,6 @@
 package com.flowyk;
 
-import com.flowyk.perceptron.PerceptronTest;
+import com.flowyk.test.perceptron.PerceptronTest;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.slf4j.Logger;
