@@ -24,6 +24,7 @@ public abstract class McCullochPittsNeuron {
     protected final TransferFunction transferFunction;
 
     public McCullochPittsNeuron(@NotNull List<BigDecimal> weights, @NotNull TransferFunction transferFunction, @NotNull BigDecimal learningRate) {
+        LOG.debug("Creating new neuron...");
         this.weights = weights;
         this.transferFunction = transferFunction;
         this.learningRate = learningRate;
@@ -52,6 +53,7 @@ public abstract class McCullochPittsNeuron {
         List<TrainingResult> outputs;
         LOG.debug("Learning started: {}", this);
         do {
+            LOG.debug("Learn cycle starting...");
             outputs = trainSet(inputs);
             LOG.debug("Learn cycle finished: {}", this);
         } while (checkError(outputs));
@@ -70,11 +72,12 @@ public abstract class McCullochPittsNeuron {
         boolean error = false;
         double theta = 0.0001d;
         for (TrainingResult result: outputs) {
-            LOG.debug("Error: {}", result.getError());
+            LOG.debug("Error per result: {}", result.getError());
             if (result.getError() > theta || result.getError() < -theta) {
-
                 error = true;
-                break;
+                if (!LOG.isDebugEnabled()) {
+                    break;
+                }
             }
         }
         return error;

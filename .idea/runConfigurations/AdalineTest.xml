@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="PerceptronTest" type="JUnit" factoryName="JUnit">
+  <configuration default="false" name="AdalineTest" type="JUnit" factoryName="JUnit" singleton="true" show_console_on_std_out="true" show_console_on_std_err="true" nameIsGenerated="true">
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
       <pattern>
         <option name="PATTERN" value="com.flowyk.neuron.*" />
@@ -10,7 +10,7 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" value="" />
     <option name="PACKAGE_NAME" value="com.flowyk.neuron" />
-    <option name="MAIN_CLASS_NAME" value="com.flowyk.neuron.PerceptronTest" />
+    <option name="MAIN_CLASS_NAME" value="com.flowyk.neuron.AdalineTest" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
     <option name="VM_PARAMETERS" value="" />
@@ -23,9 +23,7 @@
     </option>
     <envs />
     <patterns />
-    <RunnerSettings RunnerId="Cover" />
     <RunnerSettings RunnerId="Run" />
-    <ConfigurationWrapper RunnerId="Cover" />
     <ConfigurationWrapper RunnerId="Run" />
     <method />
   </configuration>

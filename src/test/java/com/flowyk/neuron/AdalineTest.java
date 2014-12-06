@@ -3,7 +3,8 @@ package com.flowyk.neuron;
 import com.flowyk.neuron.messenger.ActivationInput;
 import com.flowyk.neuron.messenger.ActivationResult;
 import com.flowyk.neuron.messenger.TrainingInput;
-import com.flowyk.neuron.transferfunction.StepFunction;
+import com.flowyk.neuron.transferfunction.BipolarnaFunkcia;
+import com.flowyk.neuron.transferfunction.TransferFunction;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -16,16 +17,16 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class PerceptronTest {
-    private static final Logger LOG = LoggerFactory.getLogger(PerceptronTest.class);
+public class AdalineTest {
+    private static final Logger LOG = LoggerFactory.getLogger(AdalineTest.class);
 
     private static McCullochPittsNeuron testedNeuron;
 
     @BeforeClass
     public static void setUp() throws Exception {
         List<BigDecimal> initialWeights = Arrays.asList(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-        StepFunction aktivacnaFunkcia = new StepFunction(0.5d);
-        testedNeuron = new Perceptron(initialWeights, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
+        TransferFunction aktivacnaFunkcia = new BipolarnaFunkcia(0.5d);
+        testedNeuron = new Adaline(initialWeights, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();
         wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(1d, 0d, 0d), 1d));
