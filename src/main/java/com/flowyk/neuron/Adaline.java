@@ -1,6 +1,6 @@
 package com.flowyk.neuron;
 
-import com.flowyk.neuron.messenger.ActivationResult;
+import com.flowyk.neuron.messenger.DetailedActivationResult;
 import com.flowyk.neuron.messenger.TrainingInput;
 import com.flowyk.neuron.messenger.TrainingResult;
 import com.flowyk.neuron.transferfunction.TransferFunction;
@@ -25,7 +25,7 @@ public class Adaline extends McCullochPittsNeuron {
 
     @Override
     public TrainingResult train(TrainingInput input) {
-        ActivationResult activationResult = activate(input);
+        DetailedActivationResult activationResult = activate(input);
 
         double output = activationResult.getOutput();
         LOG.debug("Output: {}, desired: {}", output, input.getDesiredOutput().doubleValue());
@@ -39,16 +39,18 @@ public class Adaline extends McCullochPittsNeuron {
         return result;
     }
 
-    private void trainWeights(TrainingInput input, ActivationResult output) {
+    private void trainWeights(TrainingInput input, DetailedActivationResult output) {
         List<Number> inputValues = input.getInput();
         List<BigDecimal> newWeights = new ArrayList<>();
 
         BigDecimal desiredOutput = BigDecimal.valueOf(input.getDesiredOutput().doubleValue());
-
+        BigDecimal realOutput = BigDecimal.ZERO;
+        for (BigDecimal sensorOutput: output.getSensorOutputs()) {
+            realOutput = realOutput.add(sensorOutput);
+        }
+        BigDecimal error = desiredOutput.subtract(realOutput);
         for (int i = 0; i < weights.size() && 1 < inputValues.size(); i++) {
             BigDecimal inputForIndex = BigDecimal.valueOf(inputValues.get(i).doubleValue());
-            BigDecimal realOutput = BigDecimal.valueOf(output.getSensorOutputs().get(i).doubleValue());
-            BigDecimal error = desiredOutput.subtract(realOutput);
             BigDecimal correction = learningRate.multiply(inputForIndex).multiply(error);
             BigDecimal newWeight = correction.add(weights.get(i));
             newWeights.add(newWeight);

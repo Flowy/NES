@@ -1,6 +1,6 @@
 package com.flowyk.neuron;
 
-import com.flowyk.neuron.messenger.ActivationResult;
+import com.flowyk.neuron.messenger.DetailedActivationResult;
 import com.flowyk.neuron.messenger.TrainingInput;
 import com.flowyk.neuron.messenger.TrainingResult;
 import com.flowyk.neuron.transferfunction.TransferFunction;
@@ -25,7 +25,7 @@ public class Perceptron extends McCullochPittsNeuron {
 
     @Override
     public TrainingResult train(TrainingInput input) {
-        ActivationResult activationResult = activate(input);
+        DetailedActivationResult activationResult = activate(input);
 
         double output = activationResult.getOutput();
         LOG.debug("Output: {}, desired: {}", output, input.getDesiredOutput());

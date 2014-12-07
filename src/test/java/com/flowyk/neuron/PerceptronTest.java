@@ -3,7 +3,8 @@ package com.flowyk.neuron;
 import com.flowyk.neuron.messenger.ActivationInput;
 import com.flowyk.neuron.messenger.ActivationResult;
 import com.flowyk.neuron.messenger.TrainingInput;
-import com.flowyk.neuron.transferfunction.StepFunction;
+import com.flowyk.neuron.transferfunction.BipolarnaFunkcia;
+import com.flowyk.neuron.transferfunction.TransferFunction;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class PerceptronTest {
     @BeforeClass
     public static void setUp() throws Exception {
         List<BigDecimal> initialWeights = Arrays.asList(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-        StepFunction aktivacnaFunkcia = new StepFunction(0.5d);
+        TransferFunction aktivacnaFunkcia = new BipolarnaFunkcia(0.5d);
         testedNeuron = new Perceptron(initialWeights, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();

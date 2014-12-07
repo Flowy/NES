@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Lukas on 30. 11. 2014.
  */
-public class TrainingResult extends ActivationResult {
+public class TrainingResult extends DetailedActivationResult {
 
     private double error;
 

@@ -1,7 +1,7 @@
 package com.flowyk.neuron;
 
 import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.ActivationResult;
+import com.flowyk.neuron.messenger.DetailedActivationResult;
 import com.flowyk.neuron.messenger.TrainingInput;
 import com.flowyk.neuron.messenger.TrainingResult;
 import com.flowyk.neuron.transferfunction.TransferFunction;
@@ -32,7 +32,7 @@ public abstract class McCullochPittsNeuron {
 
     public abstract TrainingResult train(TrainingInput input);
 
-    public ActivationResult activate(ActivationInput input) {
+    public DetailedActivationResult activate(ActivationInput input) {
         List<Number> inputValues = input.getInput();
         List<BigDecimal> sensorOutputs = new ArrayList<>();
         BigDecimal sum = BigDecimal.ZERO;
@@ -46,18 +46,20 @@ public abstract class McCullochPittsNeuron {
 
         double output = transferFunction.transfer(sum);
 
-        return new ActivationResult(sensorOutputs, output);
+        return new DetailedActivationResult(sensorOutputs, output);
     }
 
     public void learnBySet(List<TrainingInput> inputs) {
         List<TrainingResult> outputs;
+        int iterations = 0;
         LOG.debug("Learning started: {}", this);
         do {
             LOG.debug("Learn cycle starting...");
             outputs = trainSet(inputs);
-            LOG.debug("Learn cycle finished: {}", this);
+            LOG.debug("Learn cycle finished: {} ", this);
+            iterations++;
         } while (checkError(outputs));
-        LOG.debug("Learning done: {}", this);
+        LOG.info("Learning done after {} iterations: {}", iterations, this);
     }
 
     public List<TrainingResult> trainSet(List<TrainingInput> inputs) {
