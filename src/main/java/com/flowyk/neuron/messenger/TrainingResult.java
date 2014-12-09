@@ -1,5 +1,7 @@
 package com.flowyk.neuron.messenger;
 
+import com.sun.istack.internal.NotNull;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -8,14 +10,14 @@ import java.util.List;
  */
 public class TrainingResult extends DetailedActivationResult {
 
-    private double error;
+    private BigDecimal error;
 
-    public TrainingResult(List<BigDecimal> sensorOutputs, double output, double error) {
+    public TrainingResult(@NotNull List<BigDecimal> sensorOutputs, @NotNull BigDecimal output, @NotNull BigDecimal error) {
         super(sensorOutputs, output);
         this.error = error;
     }
 
-    public double getError() {
+    public BigDecimal getError() {
         return error;
     }
 }

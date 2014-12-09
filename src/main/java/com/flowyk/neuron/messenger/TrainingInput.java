@@ -2,6 +2,7 @@ package com.flowyk.neuron.messenger;
 
 import com.sun.istack.internal.NotNull;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -9,14 +10,14 @@ import java.util.List;
  */
 public class TrainingInput extends ActivationInput {
 
-    private final Number output;
+    private final BigDecimal output;
 
-    public TrainingInput(@NotNull List<Number> input, @NotNull Number output) {
+    public TrainingInput(@NotNull List<BigDecimal> input, @NotNull BigDecimal output) {
         super(input);
         this.output = output;
     }
 
-    public Number getDesiredOutput() {
+    public BigDecimal getDesiredOutput() {
         return output;
     }
 }

@@ -2,6 +2,7 @@ package com.flowyk.neuron.messenger;
 
 import com.sun.istack.internal.NotNull;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,13 +11,13 @@ import java.util.List;
  */
 public class ActivationInput {
 
-    private final List<Number> input;
+    private final List<BigDecimal> input;
 
-    public ActivationInput(@NotNull List<Number> input) {
+    public ActivationInput(@NotNull List<BigDecimal> input) {
         this.input = Collections.unmodifiableList(input);
     }
 
-    public List<Number> getInput() {
+    public List<BigDecimal> getInput() {
         return input;
     }
 }

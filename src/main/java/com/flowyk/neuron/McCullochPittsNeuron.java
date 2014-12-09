@@ -33,18 +33,18 @@ public abstract class McCullochPittsNeuron {
     public abstract TrainingResult train(TrainingInput input);
 
     public DetailedActivationResult activate(ActivationInput input) {
-        List<Number> inputValues = input.getInput();
+        List<BigDecimal> inputValues = input.getInput();
         List<BigDecimal> sensorOutputs = new ArrayList<>();
         BigDecimal sum = BigDecimal.ZERO;
         for (int i = 0; i < weights.size() && i < inputValues.size(); i++) {
-            Number inputValue = inputValues.get(i);
+            BigDecimal inputValue = inputValues.get(i);
             BigDecimal weight = weights.get(i);
-            BigDecimal sensorOutput = weight.multiply(BigDecimal.valueOf(inputValue.doubleValue()));
+            BigDecimal sensorOutput = weight.multiply(inputValue);
             sensorOutputs.add(sensorOutput);
             sum = sum.add(sensorOutput);
         }
 
-        double output = transferFunction.transfer(sum);
+        BigDecimal output = transferFunction.transfer(sum);
 
         return new DetailedActivationResult(sensorOutputs, output);
     }
@@ -75,7 +75,7 @@ public abstract class McCullochPittsNeuron {
         double theta = 0.0001d;
         for (TrainingResult result: outputs) {
             LOG.debug("Error per result: {}", result.getError());
-            if (result.getError() > theta || result.getError() < -theta) {
+            if (result.getError().compareTo(BigDecimal.ZERO) != 0) {
                 error = true;
                 if (!LOG.isDebugEnabled()) {
                     break;

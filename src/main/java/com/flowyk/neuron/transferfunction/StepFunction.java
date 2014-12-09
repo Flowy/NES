@@ -1,22 +1,24 @@
 package com.flowyk.neuron.transferfunction;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Lukas on 30. 11. 2014.
  */
 public class StepFunction implements TransferFunction {
 
-    private final double threshold;
+    private final BigDecimal threshold;
 
-    public StepFunction(double threshold) {
+    public StepFunction(BigDecimal threshold) {
         this.threshold = threshold;
     }
 
     @Override
-    public double transfer(Number sum) {
-        if (sum.doubleValue() >= threshold) {
-            return 1d;
+    public BigDecimal transfer(BigDecimal sum) {
+        if (sum.compareTo(threshold) >= 0) {
+            return BigDecimal.ONE;
         } else {
-            return 0d;
+            return BigDecimal.ZERO;
         }
     }
 }

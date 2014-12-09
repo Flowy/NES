@@ -27,30 +27,29 @@ public class Adaline extends McCullochPittsNeuron {
     public TrainingResult train(TrainingInput input) {
         DetailedActivationResult activationResult = activate(input);
 
-        double output = activationResult.getOutput();
-        LOG.debug("Output: {}, desired: {}", output, input.getDesiredOutput().doubleValue());
+        BigDecimal output = activationResult.getOutput();
+        LOG.debug("Output: {}, desired: {}", output, input.getDesiredOutput());
 
-        double error = input.getDesiredOutput().doubleValue() - output;
+        BigDecimal error = input.getDesiredOutput().subtract(output);
         TrainingResult result = new TrainingResult(activationResult.getSensorOutputs(), output, error);
-        double theta = 0.001d;
-        if (error > theta || error < -theta) {
+        if (error.compareTo(BigDecimal.ZERO) != 0) {
             trainWeights(input, activationResult);
         }
         return result;
     }
 
     private void trainWeights(TrainingInput input, DetailedActivationResult output) {
-        List<Number> inputValues = input.getInput();
+        List<BigDecimal> inputValues = input.getInput();
         List<BigDecimal> newWeights = new ArrayList<>();
 
-        BigDecimal desiredOutput = BigDecimal.valueOf(input.getDesiredOutput().doubleValue());
+        BigDecimal desiredOutput = input.getDesiredOutput();
         BigDecimal realOutput = BigDecimal.ZERO;
         for (BigDecimal sensorOutput: output.getSensorOutputs()) {
             realOutput = realOutput.add(sensorOutput);
         }
         BigDecimal error = desiredOutput.subtract(realOutput);
         for (int i = 0; i < weights.size() && 1 < inputValues.size(); i++) {
-            BigDecimal inputForIndex = BigDecimal.valueOf(inputValues.get(i).doubleValue());
+            BigDecimal inputForIndex = inputValues.get(i);
             BigDecimal correction = learningRate.multiply(inputForIndex).multiply(error);
             BigDecimal newWeight = correction.add(weights.get(i));
             newWeights.add(newWeight);

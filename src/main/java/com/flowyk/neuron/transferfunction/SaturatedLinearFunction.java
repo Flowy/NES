@@ -1,18 +1,19 @@
 package com.flowyk.neuron.transferfunction;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Lukas on 6. 12. 2014.
  */
 public class SaturatedLinearFunction implements TransferFunction {
     @Override
-    public double transfer(Number sum) {
-        double sumDouble = sum.doubleValue();
-        if (sumDouble >= 1) {
-            return 1;
-        } else if (sumDouble < 0) {
-            return 0;
+    public BigDecimal transfer(BigDecimal sum) {
+        if (sum.compareTo(BigDecimal.ONE) >= 0) {
+            return BigDecimal.ONE;
+        } else if (sum.compareTo(BigDecimal.ZERO) < 0) {
+            return BigDecimal.ZERO;
         } else {
-            return sumDouble;
+            return sum;
         }
     }
 }

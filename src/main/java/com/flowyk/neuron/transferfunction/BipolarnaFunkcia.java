@@ -1,25 +1,27 @@
 package com.flowyk.neuron.transferfunction;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Lukas on 6. 12. 2014.
  */
 public class BipolarnaFunkcia implements TransferFunction {
 
-    private double threshold;
+    private BigDecimal threshold;
 
-    public BipolarnaFunkcia(double threshold) {
+    public BipolarnaFunkcia(BigDecimal threshold) {
         this.threshold = threshold;
     }
 
     @Override
-    public double transfer(Number sum) {
-        double sumDouble = sum.doubleValue();
-        if (sumDouble > threshold) {
-            return 1;
-        } else if (sumDouble < -threshold) {
-            return -1;
+    public BigDecimal transfer(BigDecimal sum) {
+        int compareResult = sum.compareTo(threshold);
+        if (compareResult > 0) {
+            return BigDecimal.ONE;
+        } else if (compareResult < 0) {
+            return BigDecimal.ONE.negate();
         } else {
-            return 0;
+            return BigDecimal.ZERO;
         }
     }
 }

@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.ZERO;
+import static org.junit.Assert.assertTrue;
 
 public class PerceptronTest {
     private static final Logger LOG = LoggerFactory.getLogger(PerceptronTest.class);
@@ -25,43 +27,43 @@ public class PerceptronTest {
     @BeforeClass
     public static void setUp() throws Exception {
         List<BigDecimal> initialWeights = Arrays.asList(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-        TransferFunction aktivacnaFunkcia = new BipolarnaFunkcia(0.5d);
+        TransferFunction aktivacnaFunkcia = new BipolarnaFunkcia(BigDecimal.valueOf(0.5d));
         testedNeuron = new Perceptron(initialWeights, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(1d, 0d, 0d), 1d));
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(1d, 0d, 1d), 1d));
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(1d, 1d, 0d), 1d));
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(1d, 1d, 1d), 0d));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ZERO), ONE));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ONE), ONE));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ONE, ZERO), ONE));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ONE, ONE), ZERO));
 
         testedNeuron.learnBySet(wikiExampleNANDSet);
     }
 
     @Test
     public void testActivateWikiNAND1() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(1d, 0d, 0d));
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ZERO, ZERO));
         ActivationResult result = testedNeuron.activate(nandInput);
-        assertEquals(1d, result.getOutput(), 0.01d);
+        assertTrue(ONE.compareTo(result.getOutput()) == 0);
     }
 
     @Test
     public void testActivateWikiNAND2() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(1d, 0d, 1d));
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ZERO, ONE));
         ActivationResult result = testedNeuron.activate(nandInput);
-        assertEquals(1d, result.getOutput(), 0.01d);
+        assertTrue(ONE.compareTo(result.getOutput()) == 0);
     }
 
     @Test
     public void testActivateWikiNAND3() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(1d, 1d, 0d));
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ONE, ZERO));
         ActivationResult result = testedNeuron.activate(nandInput);
-        assertEquals(1d, result.getOutput(), 0.01d);
+        assertTrue(ONE.compareTo(result.getOutput()) == 0);
     }
 
     @Test
     public void testActivateWikiNAND4() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(1d, 1d, 1d));
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ONE, ONE));
         ActivationResult result = testedNeuron.activate(nandInput);
-        assertEquals(0d, result.getOutput(), 0.01d);
+        assertTrue(ZERO.compareTo(result.getOutput()) == 0);
     }
 }

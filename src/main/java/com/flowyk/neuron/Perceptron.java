@@ -27,26 +27,26 @@ public class Perceptron extends McCullochPittsNeuron {
     public TrainingResult train(TrainingInput input) {
         DetailedActivationResult activationResult = activate(input);
 
-        double output = activationResult.getOutput();
+        BigDecimal output = activationResult.getOutput();
         LOG.debug("Output: {}, desired: {}", output, input.getDesiredOutput());
 
-        double error = input.getDesiredOutput().doubleValue() - output;
+        BigDecimal error = input.getDesiredOutput().subtract(output);
         TrainingResult result = new TrainingResult(activationResult.getSensorOutputs(), output, error);
-        if (error != 0) {
+        if (error.compareTo(BigDecimal.ZERO) != 0) {
             trainWeights(input, result);
         }
         return result;
     }
 
     private void trainWeights(TrainingInput input, TrainingResult output) {
-        List<Number> inputValues = input.getInput();
+        List<BigDecimal> inputValues = input.getInput();
         List<BigDecimal> newWeights = new ArrayList<>();
 
-        BigDecimal desiredOutput = BigDecimal.valueOf(input.getDesiredOutput().doubleValue());
-        BigDecimal realOutput = BigDecimal.valueOf(output.getOutput());
+        BigDecimal desiredOutput = input.getDesiredOutput();
+        BigDecimal realOutput = output.getOutput();
         BigDecimal error = desiredOutput.subtract(realOutput);
         for (int i = 0; i < weights.size() && i < inputValues.size(); i++) {
-            BigDecimal inputForIndex = BigDecimal.valueOf(inputValues.get(i).doubleValue());
+            BigDecimal inputForIndex = inputValues.get(i);
             BigDecimal correction = learningRate.multiply(inputForIndex).multiply(error);
             BigDecimal newWeight = correction.add(weights.get(i));
             newWeights.add(newWeight);

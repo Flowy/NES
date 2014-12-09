@@ -1,5 +1,7 @@
 package com.flowyk.neuron.messenger;
 
+import com.sun.istack.internal.NotNull;
+
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +14,7 @@ public class DetailedActivationResult extends ActivationResult {
 
     private List<BigDecimal> sensorOutputs;
 
-    public DetailedActivationResult(List<BigDecimal> sensorOutputs, double output) {
+    public DetailedActivationResult(List<BigDecimal> sensorOutputs, @NotNull BigDecimal output) {
         super(output);
         this.sensorOutputs = Collections.unmodifiableList(sensorOutputs);
     }
