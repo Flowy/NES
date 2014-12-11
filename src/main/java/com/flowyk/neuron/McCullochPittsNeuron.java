@@ -1,9 +1,7 @@
 package com.flowyk.neuron;
 
 import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.DetailedActivationResult;
-import com.flowyk.neuron.messenger.TrainingInput;
-import com.flowyk.neuron.messenger.TrainingResult;
+import com.flowyk.neuron.messenger.NeuronOutput;
 import com.flowyk.neuron.transferfunction.TransferFunction;
 import com.sun.istack.internal.NotNull;
 import org.slf4j.Logger;
@@ -11,32 +9,52 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Lukas on 30. 11. 2014.
  */
-public abstract class McCullochPittsNeuron {
+public abstract class McCullochPittsNeuron implements Neuron {
     private static final Logger LOG = LoggerFactory.getLogger(McCullochPittsNeuron.class);
 
-    protected List<BigDecimal> weights;
+    protected List<BigDecimal> weights = new ArrayList<>();
     protected final BigDecimal learningRate;
     protected final TransferFunction transferFunction;
 
-    public McCullochPittsNeuron(@NotNull List<BigDecimal> weights, @NotNull TransferFunction transferFunction, @NotNull BigDecimal learningRate) {
+    public McCullochPittsNeuron(int numberOfSensors, @NotNull TransferFunction transferFunction, @NotNull BigDecimal learningRate) {
         LOG.debug("Creating new neuron...");
-        this.weights = weights;
-        this.transferFunction = transferFunction;
+        for (int i = 0; i < numberOfSensors; i++) {
+            weights.add(BigDecimal.ZERO);
+        }
         this.learningRate = learningRate;
+        this.transferFunction = transferFunction;
     }
 
-    public abstract TrainingResult train(TrainingInput input);
-
-    public DetailedActivationResult activate(ActivationInput input) {
+    @Override
+    public void train(ActivationInput input, BigDecimal error) {
         List<BigDecimal> inputValues = input.getInput();
-        List<BigDecimal> sensorOutputs = new ArrayList<>();
+        List<BigDecimal> newWeights = new ArrayList<>();
+        //TODO: work with bias
+        for (int i = 0; i < weights.size(); i++) {
+            BigDecimal inputForSensor = inputValues.get(i);
+            BigDecimal correction = learningRate.multiply(inputForSensor).multiply(error);
+            BigDecimal newWeight = correction.add(weights.get(i));
+            newWeights.add(newWeight);
+        }
+        this.weights = Collections.unmodifiableList(newWeights);
+    }
+
+    @Override
+    public NeuronOutput activate(ActivationInput input) {
+        List<BigDecimal> inputValues = input.getInput();
+        int numOfInputs = inputValues.size();
+        if (inputValues.size() != weights.size()) {
+            throw new IllegalArgumentException("Input values (" + numOfInputs + ") must be as many as sensors (" + weights.size() + ")");
+        }
+        List<BigDecimal> sensorOutputs = new ArrayList<>(numOfInputs);
         BigDecimal sum = BigDecimal.ZERO;
-        for (int i = 0; i < weights.size() && i < inputValues.size(); i++) {
+        for (int i = 0; i < numOfInputs; i++) {
             BigDecimal inputValue = inputValues.get(i);
             BigDecimal weight = weights.get(i);
             BigDecimal sensorOutput = weight.multiply(inputValue);
@@ -44,45 +62,12 @@ public abstract class McCullochPittsNeuron {
             sum = sum.add(sensorOutput);
         }
 
-        BigDecimal output = transferFunction.transfer(sum);
-
-        return new DetailedActivationResult(sensorOutputs, output);
+        return new NeuronOutput(sensorOutputs, transferFunction);
     }
 
-    public void learnBySet(List<TrainingInput> inputs) {
-        List<TrainingResult> outputs;
-        int iterations = 0;
-        LOG.debug("Learning started: {}", this);
-        do {
-            LOG.debug("Learn cycle starting...");
-            outputs = trainSet(inputs);
-            LOG.debug("Learn cycle finished: {} ", this);
-            iterations++;
-        } while (checkError(outputs));
-        LOG.info("Learning done after {} iterations: {}", iterations, this);
-    }
-
-    public List<TrainingResult> trainSet(List<TrainingInput> inputs) {
-        List<TrainingResult> results = new ArrayList<>();
-        for (TrainingInput input: inputs) {
-            results.add(train(input));
-        }
-        return results;
-    }
-
-    private boolean checkError(List<TrainingResult> outputs) {
-        boolean error = false;
-        double theta = 0.0001d;
-        for (TrainingResult result: outputs) {
-            LOG.debug("Error per result: {}", result.getError());
-            if (result.getError().compareTo(BigDecimal.ZERO) != 0) {
-                error = true;
-                if (!LOG.isDebugEnabled()) {
-                    break;
-                }
-            }
-        }
-        return error;
+    @Override
+    public List<BigDecimal> getWeights() {
+        return Collections.unmodifiableList(weights);
     }
 
     @Override

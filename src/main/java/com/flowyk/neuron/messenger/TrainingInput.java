@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class TrainingInput extends ActivationInput {
 
-    private final BigDecimal output;
+    private final BigDecimal desiredOutput;
 
-    public TrainingInput(@NotNull List<BigDecimal> input, @NotNull BigDecimal output) {
-        super(input);
-        this.output = output;
+    public TrainingInput(@NotNull List<BigDecimal> input, @NotNull BigDecimal bias, @NotNull BigDecimal desiredOutput) {
+        super(input, bias);
+        this.desiredOutput = desiredOutput;
     }
 
     public BigDecimal getDesiredOutput() {
-        return output;
+        return desiredOutput;
     }
 }

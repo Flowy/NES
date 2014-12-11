@@ -12,12 +12,15 @@ import java.util.List;
 public class ActivationInput {
 
     private final List<BigDecimal> input;
+    private final BigDecimal bias;
 
-    public ActivationInput(@NotNull List<BigDecimal> input) {
+    public ActivationInput(@NotNull List<BigDecimal> input, @NotNull BigDecimal bias) {
         this.input = Collections.unmodifiableList(input);
+        this.bias = bias;
     }
 
     public List<BigDecimal> getInput() {
         return input;
     }
+    public BigDecimal getBias() { return bias; }
 }
