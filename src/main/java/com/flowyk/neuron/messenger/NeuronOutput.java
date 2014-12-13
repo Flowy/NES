@@ -47,4 +47,11 @@ public class NeuronOutput {
     public int hashCode() {
         return sensorOutputs.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "NeuronOutput{" +
+                "sensorOutputs=" + sensorOutputs +
+                '}';
+    }
 }

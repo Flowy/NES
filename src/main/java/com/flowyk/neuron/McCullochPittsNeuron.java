@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Lukas on 30. 11. 2014.
  */
-public abstract class McCullochPittsNeuron implements Neuron {
+public class McCullochPittsNeuron implements Neuron {
     private static final Logger LOG = LoggerFactory.getLogger(McCullochPittsNeuron.class);
 
     protected List<BigDecimal> weights = new ArrayList<>();

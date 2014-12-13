@@ -1,7 +1,7 @@
 package com.flowyk.neuron;
 
 import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.ActivationResult;
+import com.flowyk.neuron.messenger.NeuronOutput;
 import com.flowyk.neuron.messenger.TrainingInput;
 import com.flowyk.neuron.transferfunction.BipolarnaFunkcia;
 import com.flowyk.neuron.transferfunction.TransferFunction;
@@ -22,48 +22,49 @@ import static org.junit.Assert.assertTrue;
 public class PerceptronTest {
     private static final Logger LOG = LoggerFactory.getLogger(PerceptronTest.class);
 
-    private static McCullochPittsNeuron testedNeuron;
+    private static Neuron testedNeuron;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        List<BigDecimal> initialWeights = Arrays.asList(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
         TransferFunction aktivacnaFunkcia = new BipolarnaFunkcia(BigDecimal.valueOf(0.5d));
-        testedNeuron = new Perceptron(initialWeights, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
+
+        testedNeuron = new McCullochPittsNeuron(3, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
+        NeuronTrainer neuronTrainer = new PerceptronTrainer(testedNeuron);
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ZERO), ONE));
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ONE), ONE));
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ONE, ZERO), ONE));
-        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ONE, ONE), ZERO));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ZERO), ONE, ONE));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ONE), ONE, ONE));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ONE, ZERO), ONE, ONE));
+        wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ONE, ONE), ONE, ZERO));
 
-        testedNeuron.learnBySet(wikiExampleNANDSet);
+        neuronTrainer.trainAll(wikiExampleNANDSet);
     }
 
     @Test
     public void testActivateWikiNAND1() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ZERO, ZERO));
-        ActivationResult result = testedNeuron.activate(nandInput);
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ZERO, ZERO), ONE);
+        NeuronOutput result = testedNeuron.activate(nandInput);
         assertTrue(ONE.compareTo(result.getOutput()) == 0);
     }
 
     @Test
     public void testActivateWikiNAND2() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ZERO, ONE));
-        ActivationResult result = testedNeuron.activate(nandInput);
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ZERO, ONE), ONE);
+        NeuronOutput result = testedNeuron.activate(nandInput);
         assertTrue(ONE.compareTo(result.getOutput()) == 0);
     }
 
     @Test
     public void testActivateWikiNAND3() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ONE, ZERO));
-        ActivationResult result = testedNeuron.activate(nandInput);
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ONE, ZERO), ONE);
+        NeuronOutput result = testedNeuron.activate(nandInput);
         assertTrue(ONE.compareTo(result.getOutput()) == 0);
     }
 
     @Test
     public void testActivateWikiNAND4() throws Exception {
-        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ONE, ONE));
-        ActivationResult result = testedNeuron.activate(nandInput);
+        ActivationInput nandInput = new ActivationInput(Arrays.asList(ONE, ONE, ONE), ONE);
+        NeuronOutput result = testedNeuron.activate(nandInput);
         assertTrue(ZERO.compareTo(result.getOutput()) == 0);
     }
 }

@@ -3,6 +3,8 @@ package com.flowyk.neuron;
 import com.flowyk.neuron.messenger.NeuronOutput;
 import com.flowyk.neuron.messenger.TrainingInput;
 import com.sun.istack.internal.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.List;
  * Created by Lukas on 11. 12. 2014.
  */
 public abstract class NeuronTrainer {
+    private static final Logger LOG = LoggerFactory.getLogger(NeuronTrainer.class);
 
     protected abstract BigDecimal calculateError(NeuronOutput output, BigDecimal desiredOutput);
 
@@ -25,9 +28,11 @@ public abstract class NeuronTrainer {
     public void trainAll(List<TrainingInput> inputs) {
         List<NeuronOutput> lastOutputs;
         List<NeuronOutput> actualOutputs = Collections.emptyList();
+        int iterations = 0;
         do {
             lastOutputs = actualOutputs;
             actualOutputs = trainOnce(inputs);
+            LOG.debug("Iteration {}, output: {}", iterations++, actualOutputs);
         } while (!lastOutputs.equals(actualOutputs));
     }
 
