@@ -1,4 +1,4 @@
-package com.flowyk.neuron.transferfunction;
+package com.flowyk.neuralnetworks.transferfunction;
 
 import java.math.BigDecimal;
 

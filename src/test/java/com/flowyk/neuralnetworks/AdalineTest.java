@@ -1,10 +1,13 @@
-package com.flowyk.neuron;
+package com.flowyk.neuralnetworks;
 
-import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.NeuronOutput;
-import com.flowyk.neuron.messenger.TrainingInput;
-import com.flowyk.neuron.transferfunction.StepFunction;
-import com.flowyk.neuron.transferfunction.TransferFunction;
+import com.flowyk.neuralnetworks.messenger.ActivationInput;
+import com.flowyk.neuralnetworks.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.messenger.TrainingInput;
+import com.flowyk.neuralnetworks.neuron.McCullochPittsNeuron;
+import com.flowyk.neuralnetworks.trainers.NeuralNetworkTrainer;
+import com.flowyk.neuralnetworks.trainers.PerceptronTrainer;
+import com.flowyk.neuralnetworks.transferfunction.StepFunction;
+import com.flowyk.neuralnetworks.transferfunction.TransferFunction;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -30,7 +33,7 @@ public class AdalineTest {
         TransferFunction aktivacnaFunkcia = new StepFunction(BigDecimal.valueOf(0.5d));
 
         testedNeuron = new McCullochPittsNeuron(3, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
-        NeuronTrainer neuronTrainer = new PerceptronTrainer(testedNeuron);
+        NeuralNetworkTrainer neuronTrainer = new PerceptronTrainer(testedNeuron);
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();
         wikiExampleNANDSet.add(new TrainingInput(Arrays.asList(ONE, ZERO, ZERO), ONE, ONE));

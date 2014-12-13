@@ -1,6 +1,6 @@
-package com.flowyk.neuron.messenger;
+package com.flowyk.neuralnetworks.messenger;
 
-import com.flowyk.neuron.transferfunction.TransferFunction;
+import com.flowyk.neuralnetworks.transferfunction.TransferFunction;
 import com.sun.istack.internal.NotNull;
 
 import java.math.BigDecimal;

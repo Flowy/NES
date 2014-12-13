@@ -1,6 +1,7 @@
-package com.flowyk.neuron;
+package com.flowyk.neuralnetworks.trainers;
 
-import com.flowyk.neuron.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.neuron.Neuron;
 import com.sun.istack.internal.NotNull;
 
 import java.math.BigDecimal;

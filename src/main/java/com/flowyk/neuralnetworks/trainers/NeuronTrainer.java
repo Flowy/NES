@@ -1,7 +1,8 @@
-package com.flowyk.neuron;
+package com.flowyk.neuralnetworks.trainers;
 
-import com.flowyk.neuron.messenger.NeuronOutput;
-import com.flowyk.neuron.messenger.TrainingInput;
+import com.flowyk.neuralnetworks.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.messenger.TrainingInput;
+import com.flowyk.neuralnetworks.neuron.Neuron;
 import com.sun.istack.internal.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by Lukas on 11. 12. 2014.
  */
-public abstract class NeuronTrainer {
+public abstract class NeuronTrainer implements NeuralNetworkTrainer {
     private static final Logger LOG = LoggerFactory.getLogger(NeuronTrainer.class);
 
     protected abstract BigDecimal calculateError(NeuronOutput output, BigDecimal desiredOutput);
@@ -25,6 +26,7 @@ public abstract class NeuronTrainer {
         this.neuron = neuron;
     }
 
+    @Override
     public void trainAll(List<TrainingInput> inputs) {
         List<NeuronOutput> lastOutputs;
         List<NeuronOutput> actualOutputs = Collections.emptyList();

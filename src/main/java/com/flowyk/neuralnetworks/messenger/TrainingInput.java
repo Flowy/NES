@@ -1,4 +1,4 @@
-package com.flowyk.neuron.messenger;
+package com.flowyk.neuralnetworks.messenger;
 
 import com.sun.istack.internal.NotNull;
 

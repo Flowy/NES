@@ -1,10 +1,14 @@
-package com.flowyk.neuron;
+package com.flowyk.neuralnetworks;
 
-import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.NeuronOutput;
-import com.flowyk.neuron.messenger.TrainingInput;
-import com.flowyk.neuron.transferfunction.BipolarnaFunkcia;
-import com.flowyk.neuron.transferfunction.TransferFunction;
+import com.flowyk.neuralnetworks.messenger.ActivationInput;
+import com.flowyk.neuralnetworks.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.messenger.TrainingInput;
+import com.flowyk.neuralnetworks.neuron.McCullochPittsNeuron;
+import com.flowyk.neuralnetworks.neuron.Neuron;
+import com.flowyk.neuralnetworks.trainers.NeuronTrainer;
+import com.flowyk.neuralnetworks.trainers.PerceptronTrainer;
+import com.flowyk.neuralnetworks.transferfunction.BipolarnaFunkcia;
+import com.flowyk.neuralnetworks.transferfunction.TransferFunction;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;

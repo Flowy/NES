@@ -1,7 +1,7 @@
-package com.flowyk.neuron;
+package com.flowyk.neuralnetworks.neuron;
 
-import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.messenger.ActivationInput;
+import com.flowyk.neuralnetworks.messenger.NeuronOutput;
 
 import java.math.BigDecimal;
 import java.util.List;

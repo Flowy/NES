@@ -1,8 +1,8 @@
-package com.flowyk.neuron;
+package com.flowyk.neuralnetworks.neuron;
 
-import com.flowyk.neuron.messenger.ActivationInput;
-import com.flowyk.neuron.messenger.NeuronOutput;
-import com.flowyk.neuron.transferfunction.TransferFunction;
+import com.flowyk.neuralnetworks.messenger.ActivationInput;
+import com.flowyk.neuralnetworks.messenger.NeuronOutput;
+import com.flowyk.neuralnetworks.transferfunction.TransferFunction;
 import com.sun.istack.internal.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
