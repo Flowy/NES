@@ -11,16 +11,23 @@ import java.util.List;
  */
 public class NeuralNetwork {
     private static class NeuronPipe {
-        private Neuron inputNeuron;
+        private List<Neuron> inputNeurons;
         private Neuron outputNeuron;
 
-        public NeuronPipe(@NotNull Neuron inputNeuron, @NotNull Neuron outputNeuron) {
-            this.inputNeuron = inputNeuron;
+        public NeuronPipe(@NotNull List<Neuron> inputNeurons, @NotNull Neuron outputNeuron) {
+            this.inputNeurons = inputNeurons;
             this.outputNeuron = outputNeuron;
         }
 
-        public boolean isInput(Neuron neuron) {
-            return this.inputNeuron == neuron;
+        public boolean isInInput(Neuron neuron) {
+            boolean result = false;
+            for (Neuron n: inputNeurons) {
+                if (n == neuron) {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
 
         public boolean isOutput(Neuron neuron) {
@@ -33,6 +40,7 @@ public class NeuralNetwork {
     public NeuralNetwork(@NotNull Neuron neuron) {
         neurons.add(neuron);
     }
+
 
 
 }

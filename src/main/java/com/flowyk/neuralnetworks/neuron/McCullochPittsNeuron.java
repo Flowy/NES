@@ -19,6 +19,7 @@ public class McCullochPittsNeuron implements Neuron {
     private static final Logger LOG = LoggerFactory.getLogger(McCullochPittsNeuron.class);
 
     protected List<BigDecimal> weights = new ArrayList<>();
+    protected BigDecimal biasWeight = BigDecimal.ZERO;
     protected final BigDecimal learningRate;
     protected final TransferFunction transferFunction;
 
@@ -35,7 +36,6 @@ public class McCullochPittsNeuron implements Neuron {
     public void train(ActivationInput input, BigDecimal error) {
         List<BigDecimal> inputValues = input.getInput();
         List<BigDecimal> newWeights = new ArrayList<>();
-        //TODO: work with bias
         for (int i = 0; i < weights.size(); i++) {
             BigDecimal inputForSensor = inputValues.get(i);
             BigDecimal correction = learningRate.multiply(inputForSensor).multiply(error);
@@ -43,13 +43,16 @@ public class McCullochPittsNeuron implements Neuron {
             newWeights.add(newWeight);
         }
         this.weights = Collections.unmodifiableList(newWeights);
+
+        //biasWeight train
+        biasWeight = biasWeight.add(learningRate.multiply(error));
     }
 
     @Override
     public NeuronOutput activate(ActivationInput input) {
         List<BigDecimal> inputValues = input.getInput();
         int numOfInputs = inputValues.size();
-        if (inputValues.size() != weights.size()) {
+        if (numOfInputs != weights.size()) {
             throw new IllegalArgumentException("Input values (" + numOfInputs + ") must be as many as sensors (" + weights.size() + ")");
         }
         List<BigDecimal> sensorOutputs = new ArrayList<>(numOfInputs);
@@ -62,7 +65,10 @@ public class McCullochPittsNeuron implements Neuron {
             sum = sum.add(sensorOutput);
         }
 
-        return new NeuronOutput(sensorOutputs, transferFunction);
+        BigDecimal output = sum.add(input.getBias().multiply(biasWeight));
+        output = transferFunction.transfer(output);
+
+        return new NeuronOutput(sensorOutputs, output);
     }
 
     @Override
@@ -74,6 +80,7 @@ public class McCullochPittsNeuron implements Neuron {
     public String toString() {
         return "McCullochPittsNeuron{" +
                 "weights=" + weights +
+                ", biasWeight=" + biasWeight +
                 '}';
     }
 }

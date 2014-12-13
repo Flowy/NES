@@ -23,4 +23,12 @@ public class ActivationInput {
         return input;
     }
     public BigDecimal getBias() { return bias; }
+
+    @Override
+    public String toString() {
+        return "ActivationInput{" +
+                "input=" + input +
+                ", bias=" + bias +
+                '}';
+    }
 }

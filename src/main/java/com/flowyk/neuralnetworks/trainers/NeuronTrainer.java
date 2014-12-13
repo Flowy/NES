@@ -32,9 +32,9 @@ public abstract class NeuronTrainer implements NeuralNetworkTrainer {
         List<NeuronOutput> actualOutputs = Collections.emptyList();
         int iterations = 0;
         do {
+            LOG.debug("Training iteration {}", iterations++);
             lastOutputs = actualOutputs;
             actualOutputs = trainOnce(inputs);
-            LOG.debug("Iteration {}, output: {}", iterations++, actualOutputs);
         } while (!lastOutputs.equals(actualOutputs));
     }
 
@@ -44,8 +44,11 @@ public abstract class NeuronTrainer implements NeuralNetworkTrainer {
             NeuronOutput output = neuron.activate(input);
             results.add(neuron.activate(input));
             if (output.getOutput().compareTo(input.getDesiredOutput()) != 0) {
-                neuron.train(input, calculateError(output, input.getDesiredOutput()));
+                BigDecimal error = calculateError(output, input.getDesiredOutput());
+                LOG.debug("Error was: {}", error);
+                neuron.train(input, error);
             }
+            LOG.debug("Input: {}, output: {}, neuron after train: {}", input, output, neuron);
         }
         return results;
     }
