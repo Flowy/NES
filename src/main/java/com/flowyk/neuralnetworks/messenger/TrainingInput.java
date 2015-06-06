@@ -20,4 +20,11 @@ public class TrainingInput extends ActivationInput {
     public BigDecimal getDesiredOutput() {
         return desiredOutput;
     }
+
+    @Override
+    public String toString() {
+        return "TrainingInput{" +
+                "desiredOutput=" + desiredOutput +
+                "} " + super.toString();
+    }
 }

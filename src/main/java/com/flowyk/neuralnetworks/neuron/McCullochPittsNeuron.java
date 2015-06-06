@@ -19,17 +19,16 @@ public class McCullochPittsNeuron implements Neuron {
     private static final Logger LOG = LoggerFactory.getLogger(McCullochPittsNeuron.class);
 
     protected List<BigDecimal> weights = new ArrayList<>();
-    protected BigDecimal biasWeight = BigDecimal.ZERO;
-    protected final BigDecimal learningRate;
+    protected BigDecimal biasWeight;
+    protected final BigDecimal learningRate = BigDecimal.valueOf(0.2d);
     protected final TransferFunction transferFunction;
 
-    public McCullochPittsNeuron(int numberOfSensors, @NotNull TransferFunction transferFunction, @NotNull BigDecimal learningRate) {
+    public McCullochPittsNeuron(@NotNull List<BigDecimal> sensorWeights, @NotNull TransferFunction transferFunction, @NotNull BigDecimal bias) {
         LOG.debug("Creating new neuron...");
-        for (int i = 0; i < numberOfSensors; i++) {
-            weights.add(BigDecimal.ZERO);
-        }
-        this.learningRate = learningRate;
+        this.weights = sensorWeights;
         this.transferFunction = transferFunction;
+        this.biasWeight = bias;
+        LOG.debug("Neuron created: {}", this);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class McCullochPittsNeuron implements Neuron {
         List<BigDecimal> newWeights = new ArrayList<>();
         for (int i = 0; i < weights.size(); i++) {
             BigDecimal inputForSensor = inputValues.get(i);
-            BigDecimal correction = learningRate.multiply(inputForSensor).multiply(error);
+            BigDecimal correction = learningRate.multiply(inputForSensor).multiply(error).stripTrailingZeros();
             BigDecimal newWeight = correction.add(weights.get(i));
             newWeights.add(newWeight);
         }

@@ -32,7 +32,7 @@ public class PerceptronTest {
     public static void setUp() throws Exception {
         TransferFunction aktivacnaFunkcia = new StepFunction(BigDecimal.valueOf(0.2d));
 
-        testedNeuron = new McCullochPittsNeuron(2, aktivacnaFunkcia, BigDecimal.valueOf(0.1d));
+        testedNeuron = new McCullochPittsNeuron(Arrays.asList(ZERO, ZERO), aktivacnaFunkcia, ZERO);
         NeuronTrainer neuronTrainer = new PerceptronTrainer(testedNeuron);
 
         List<TrainingInput> wikiExampleNANDSet = new ArrayList<>();
